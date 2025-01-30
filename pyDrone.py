@@ -19,8 +19,9 @@ Kavegraph=gcurve(color= color.red)  # plot KE
 scenePE = canvas(x=0,y=500,width=600,height=150,title='Pot Energy',
             ymin=-0.6,ymax=0.0,xmin=0,xmax=100,xtitle='time',ytitle='PE')
 PEcurve = gcurve(color=color.cyan)                               
-Natom = 8                                                
-Nmax =  8                                                           
+   
+Natom = int(input("Enter number of atoms: "))
+Nmax = Natom                                                      
 Tinit = 10.0                                                  # T initial
 t1 = 0
 x  = zeros( (Nmax), float)                           
@@ -106,5 +107,5 @@ def timevolution():
         Kavegraph.plot(pos=(t,KE))                              # Plot KE
         PEcurve.plot(pos=(t,PE),display=scenePE)                # Plot PE
         t += 1
+        print(" PE= ",PE," KE = ",KE)
 timevolution()
-input('Press ENTER to exit')
