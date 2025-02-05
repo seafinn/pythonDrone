@@ -19,7 +19,8 @@ Kavegraph=gcurve(color= color.red)  # plot KE
 scenePE = canvas(x=0,y=500,width=600,height=150,title='Pot Energy',
             ymin=-0.6,ymax=0.0,xmin=0,xmax=100,xtitle='time',ytitle='PE')
 PEcurve = gcurve(color=color.cyan)                               
-   
+
+#Natom = 2   
 Natom = int(input("Enter number of atoms: "))
 Nmax = Natom                                                      
 Tinit = 10.0                                                  # T initial
