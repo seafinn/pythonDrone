@@ -19,7 +19,7 @@ sceneT = canvas(x=0,y=500,width=600,height=150,title='Average PE',
           ymin=-60,ymax=0.,xmin=0,xmax=500,xtitle='time',ytitle='PE avg')
 Tcurve = gcurve(color=color.cyan)
 
-Natom = int(input("Input L value:"))
+Natom = 5
 Natom *= Natom
 Nmax = Natom  
 Tinit = 2.; dens = 1.2;t1 = 0 # Den 1.20 for fcc
@@ -30,8 +30,6 @@ vy = zeros( (Nmax),    float)
 fx = zeros( (Nmax, 2), float)                       
 fy = zeros( (Nmax, 2), float)                       
 L = int(1.*Natom**0.5)    
-print("Number of atoms: ", Natom)                            # Side of lattice
-input("Press ENTER to start")
 atoms=[] 
 
 def twelveran():                         # Average 12 rands for Gaussian

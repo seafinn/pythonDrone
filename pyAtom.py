@@ -20,31 +20,31 @@ scenePE = canvas(x=0,y=500,width=600,height=150,title='Pot Energy',
             ymin=-0.6,ymax=0.0,xmin=0,xmax=100,xtitle='time',ytitle='PE')
 PEcurve = gcurve(color=color.cyan)                               
 
-#Natom = 2   
-Natom = int(input("Enter number of atoms: "))
+Natom = 8  
+#Natom = int(input("Enter number of atoms: "))
 Nmax = Natom                                                      
-Tinit = 10.0                                                  # T initial
-t1 = 0
-x  = zeros( (Nmax), float)                           
-vx = zeros( (Nmax), float)                               
-fx = zeros( (Nmax, 2), float)                       
-L = Natom                                          # Length of atom chain
+Tinit = 10.0                                                        # T initial
+t1 = 0                                                              # Time step
+x  = zeros( (Nmax), float)                                          # Position                           
+vx = zeros( (Nmax), float)                                          # Velocity                               
+fx = zeros( (Nmax, 2), float)                                       # Forces                                             
+L = Natom                                                           # Length of atom chain
 atoms = []                                              
 
-def twelveran():                         # Gaussian as average 12 randoms
+def twelveran():                                                    # Gaussian as average 12 randoms
     s = 0.0
     for i in range (1,13):
         s += random.random()
     return s/12.-0.5
-def initialposvel():                      # Initial positions, velocities
+def initialposvel():                                                # Initial positions, velocities
     i = -1
-    for ix in range(0, L):                                             
+    for ix in range(0, L):                                                   
             i = i + 1                     
             x[i] = ix                      
             vx[i] = twelveran()      
             vx[i] = vx[i]*sqrt(Tinit)
     for j in range(0,Natom):
-        xc = 2*x[j] - 7               # Linear transform to place spheres
+        xc = 2*x[j] - 7                                             # Linear transform to place spheres
         atoms.append(sphere(pos=vec(xc,0,0), radius=0.5)) 
 def sign(a, b):                                         
     if (b >=  0.0):
@@ -75,7 +75,7 @@ def Forces(t, PE):                                              # Forces
 def timevolution():
     t1=0
     t2 = 1
-    h = 0.038                                        # Unstable if larger
+    h = 0.01                                        # Unstable if larger
     hover2 = h/2.0
     KE = 0.0
     PE = 0.0
