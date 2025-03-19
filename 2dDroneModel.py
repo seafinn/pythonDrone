@@ -6,7 +6,7 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 1.0  # Radius of the cylinders (corners of the cube)
 mass = 1.0
-num_drones = 50
+num_drones = 1
 box_size = 200  # Simulation box size
 numCollisions = 0
 
@@ -48,10 +48,10 @@ def apply_pbc(pos, box_size):
     return pos
 
 # Function to create a drone (flat cube with cylinders on corners)
-def create_drone(pos, color):
+def create_drone(pos, color, landingPoint):
     # Create a flat cube (box) aligned with the x-y plane
     cube_size = vector(4, 4, 0.5)  # Flat cube dimensions (x, y, z)
-    cube = box(pos=pos, size=cube_size, color=color)
+    cube = box(pos=pos, size=cube_size, color=color, landingPoint=landingPoint)
 
     # Create cylinders on each corner of the cube, extending along the z-axis
     cylinder_length = 1.0  # Length of the cylinders
@@ -80,10 +80,10 @@ for i in range(num_drones):
     takeoffPoint = pos
     landingPoint = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
     unitVec = vector(((landingPoint.x-takeoffPoint.x)/mag(landingPoint-takeoffPoint)), ((landingPoint.y-takeoffPoint.y)/mag(landingPoint-takeoffPoint)), 0)
-    vel = vector(unitVec.x, unitVec.y, 0)
+    vel = vector(unitVec.x, unitVec.y, 0) * 10
     color = vector(random.random(), random.random(), random.random())
-    cube, cylinders = create_drone(pos, color)
-    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel})
+    cube, cylinders = create_drone(pos, color, landingPoint)
+    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'landingPoint' : landingPoint})
 
 # Main simulation loop
 while time < 10:
@@ -135,11 +135,16 @@ while time < 10:
 
         for j in range(num_drones):
             if i != j:
-                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= radius):
+                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4):
                     numCollisions += 1
+                    # drones[i]['cube'].visible = False
+                    # for idx, cyl in enumerate(drones[i]['cylinders']):
+                    #     cyl.visible = False
 
         for idx, cyl in enumerate(drones[i]['cylinders']):
             cyl.pos = corner_positions[idx]
-
+        
+        if(drones[i]['cube'].pos == drones[i]['cube'].landingPoint):
+            drones[i]['cube'].visible = False
     time += dt 
 print("Total Number of Collisions: ", numCollisions) 
