@@ -1,5 +1,4 @@
 from vpython import *
-import numpy as np
 import random
 
 scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0, 0, 0))
@@ -7,8 +6,9 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 1.0  # Radius of the cylinders (corners of the cube)
 mass = 1.0
-num_drones = 30
+num_drones = 100
 box_size = 200  # Simulation box size
+numCollisions = 0
 
 # Lennard-Jones parameters
 epsilon = 1.6  # Strength of the repulsion
@@ -130,7 +130,13 @@ while time < 10:
             drones[i]['cube'].pos + vector(-corner_offset.x, -corner_offset.y, 0)
         ]
 
+        for j in range(num_drones):
+            if i != j:
+                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= radius):
+                    numCollisions += 1
+
         for idx, cyl in enumerate(drones[i]['cylinders']):
             cyl.pos = corner_positions[idx]
 
-    time += dt
+    time += dt 
+print("Total Number of Collisions: ", numCollisions) 
