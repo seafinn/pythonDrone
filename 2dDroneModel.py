@@ -6,7 +6,7 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 1.0  # Radius of the cylinders (corners of the cube)
 mass = 1.0
-num_drones = 100
+num_drones = 50
 box_size = 200  # Simulation box size
 numCollisions = 0
 
@@ -77,7 +77,10 @@ def create_drone(pos, color):
 drones = []
 for i in range(num_drones):
     pos = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
-    vel = vector(random.uniform(-8, 8), random.uniform(-8, 8), 0)
+    takeoffPoint = pos
+    landingPoint = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
+    unitVec = vector(((landingPoint.x-takeoffPoint.x)/mag(landingPoint-takeoffPoint)), ((landingPoint.y-takeoffPoint.y)/mag(landingPoint-takeoffPoint)), 0)
+    vel = vector(unitVec.x, unitVec.y, 0)
     color = vector(random.random(), random.random(), random.random())
     cube, cylinders = create_drone(pos, color)
     drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel})
