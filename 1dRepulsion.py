@@ -13,7 +13,7 @@ drone1 = sphere(pos=vector(-10, 0, 0), radius=radius, color=color.red, make_trai
 drone2 = sphere(pos=vector(10, 0, 0), radius=radius, color=color.blue, make_trail=True)
 
 # Lennard-Jones parameters
-epsilon = 1.0  # Strength of the repulsion
+epsilon = 1.6  # Strength of the repulsion
 sigma = 5 * radius  # Distance at which potential is zero (set to 2 * radius)
 
 # Time step and simulation parameters
@@ -25,9 +25,8 @@ def lj_repulsive_force(r_vector, epsilon, sigma):
     r_mag = mag(r_vector)  # Magnitude of the distance vector
     if r_mag == 0:
         return vector(0, 0, 0)  # Avoid division by zero
-    force_magnitude = 48 * epsilon * (sigma**12 / r_mag**13)  # Magnitude of the force
+    force_magnitude = 2 * epsilon * (sigma / r_mag)**2  # Magnitude of the force
     force_vector = force_magnitude * (r_vector / r_mag)  # Force vector
-    print(force_vector)
     return force_vector
 
 # Main simulation loop
