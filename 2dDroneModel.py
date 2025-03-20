@@ -6,7 +6,7 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 1.0  # Radius of the cylinders (corners of the cube)
 mass = 1.0
-num_drones = 1
+num_drones = 5
 box_size = 200  # Simulation box size
 numCollisions = 0
 
@@ -80,7 +80,7 @@ for i in range(num_drones):
     takeoffPoint = pos
     landingPoint = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
     unitVec = vector(((landingPoint.x-takeoffPoint.x)/mag(landingPoint-takeoffPoint)), ((landingPoint.y-takeoffPoint.y)/mag(landingPoint-takeoffPoint)), 0)
-    vel = vector(unitVec.x, unitVec.y, 0) * 10
+    vel = vector(unitVec.x, unitVec.y, 0)*-10
     color = vector(random.random(), random.random(), random.random())
     cube, cylinders = create_drone(pos, color, landingPoint)
     drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'landingPoint' : landingPoint})
@@ -88,63 +88,69 @@ for i in range(num_drones):
 # Main simulation loop
 while time < 10:
     rate(100)  # Limit the frame rate to 100 updates per second
+    if(drones[i]['cube'].visible == True):
+        # Calculate forces and update velocities for each drone
+        for i in range(num_drones):
+            total_force = vector(0, 0, 0)
+            for j in range(num_drones):
+                if i != j:
+                    r_vector = drones[j]['cube'].pos - drones[i]['cube'].pos
+                    # Apply minimum image convention for PBC
+                    if r_vector.x > box_size / 2:
+                        r_vector.x -= box_size
+                    elif r_vector.x < -box_size / 2:
+                        r_vector.x += box_size
 
-    # Calculate forces and update velocities for each drone
-    for i in range(num_drones):
-        total_force = vector(0, 0, 0)
-        for j in range(num_drones):
-            if i != j:
-                r_vector = drones[j]['cube'].pos - drones[i]['cube'].pos
-                # Apply minimum image convention for PBC
-                if r_vector.x > box_size / 2:
-                    r_vector.x -= box_size
-                elif r_vector.x < -box_size / 2:
-                    r_vector.x += box_size
+                    if r_vector.y > box_size / 2:
+                        r_vector.y -= box_size
+                    elif r_vector.y < -box_size / 2:
+                        r_vector.y += box_size
 
-                if r_vector.y > box_size / 2:
-                    r_vector.y -= box_size
-                elif r_vector.y < -box_size / 2:
-                    r_vector.y += box_size
+                    if r_vector.z > box_size / 2:
+                        r_vector.z -= box_size
+                    elif r_vector.z < -box_size / 2:
+                        r_vector.z += box_size
 
-                if r_vector.z > box_size / 2:
-                    r_vector.z -= box_size
-                elif r_vector.z < -box_size / 2:
-                    r_vector.z += box_size
+                    r_mag = mag(r_vector)
+                    if r_mag < 2 * sigma:  # Only apply force if drones are close
+                        force = lj_repulsive_force(r_vector, epsilon, sigma)
+                        total_force += force
 
-                r_mag = mag(r_vector)
-                if r_mag < 2 * sigma:  # Only apply force if drones are close
-                    force = lj_repulsive_force(r_vector, epsilon, sigma)
-                    total_force += force
+            drones[i]['velocity'] += total_force / mass * dt
 
-        drones[i]['velocity'] += total_force / mass * dt
+        # Update positions of the drones and apply PBC
+        for i in range(num_drones):
+            # Update cube position
+            drones[i]['cube'].pos -= drones[i]['velocity'] * dt
+            drones[i]['cube'].pos = apply_pbc(drones[i]['cube'].pos, box_size)
 
-    # Update positions of the drones and apply PBC
-    for i in range(num_drones):
-        # Update cube position
-        drones[i]['cube'].pos -= drones[i]['velocity'] * dt
-        drones[i]['cube'].pos = apply_pbc(drones[i]['cube'].pos, box_size)
+            # Update cylinder positions (relative to the cube)
+            corner_offset = vector(2, 2, 0)  # Half of cube_size.x and cube_size.y
+            corner_positions = [
+                drones[i]['cube'].pos + vector(corner_offset.x, corner_offset.y, 0),
+                drones[i]['cube'].pos + vector(-corner_offset.x, corner_offset.y, 0),
+                drones[i]['cube'].pos + vector(corner_offset.x, -corner_offset.y, 0),
+                drones[i]['cube'].pos + vector(-corner_offset.x, -corner_offset.y, 0)
+            ]
 
-        # Update cylinder positions (relative to the cube)
-        corner_offset = vector(2, 2, 0)  # Half of cube_size.x and cube_size.y
-        corner_positions = [
-            drones[i]['cube'].pos + vector(corner_offset.x, corner_offset.y, 0),
-            drones[i]['cube'].pos + vector(-corner_offset.x, corner_offset.y, 0),
-            drones[i]['cube'].pos + vector(corner_offset.x, -corner_offset.y, 0),
-            drones[i]['cube'].pos + vector(-corner_offset.x, -corner_offset.y, 0)
-        ]
+            for j in range(num_drones):
+                if i != j:
+                    if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4):
+                        numCollisions += 1
+                        # drones[i]['cube'].visible = False
+                        # for idx, cyl in enumerate(drones[i]['cylinders']):
+                        #     cyl.visible = False
 
-        for j in range(num_drones):
-            if i != j:
-                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4):
-                    numCollisions += 1
-                    # drones[i]['cube'].visible = False
-                    # for idx, cyl in enumerate(drones[i]['cylinders']):
-                    #     cyl.visible = False
-
-        for idx, cyl in enumerate(drones[i]['cylinders']):
-            cyl.pos = corner_positions[idx]
-        
-        if(drones[i]['cube'].pos == drones[i]['cube'].landingPoint):
-            drones[i]['cube'].visible = False
+            for idx, cyl in enumerate(drones[i]['cylinders']):
+                cyl.pos = corner_positions[idx]
+            # print("Drone ", i, " landing point: ",drones[i]['cube'].landingPoint)
+            # print("Drone ", i, " current position: ", drones[i]['cube'].pos)
+            # print("Drone ", i, " Distance: ", sqrt((drones[i]['cube'].landingPoint.x - drones[i]['cube'].pos.x)**2 + (drones[i]['cube'].landingPoint.y - drones[i]['cube'].pos.y)**2))
+            if(sqrt((drones[i]['cube'].landingPoint.x - drones[i]['cube'].pos.x)**2 + (drones[i]['cube'].landingPoint.y - drones[i]['cube'].pos.y)**2) <= 5):
+                drones[i]['cube'].visible = False
+                for idx, cyl in enumerate(drones[i]['cylinders']):
+                    cyl.visible = False
+    else:
+        continue
     time += dt 
 print("Total Number of Collisions: ", numCollisions) 
