@@ -83,6 +83,9 @@ for i in range(num_drones):
     spawnTime = random.uniform(0, maxTime)
     cube, cylinders = create_drone(pos, color)
     drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'spawnTime': spawnTime})
+    drones[i]['cube'].visible = False
+    for idx, cyl in enumerate(drones[i]['cylinders']):
+            drones[i]['cylinders'][idx].visible = False
 
 # Main simulation loop
 while time < maxTime:
@@ -119,6 +122,11 @@ while time < maxTime:
 
     # Update positions of the drones and apply PBC
     for i in range(num_drones):
+        if(drones[i]['spawnTime'] - time <= 0.25):
+            drones[i]['cube'].visible = True
+            for idx, cyl in enumerate(drones[i]['cylinders']):
+                drones[i]['cylinders'][idx].visible = True
+
         # Update cube position
         drones[i]['cube'].pos -= drones[i]['velocity'] * dt
         drones[i]['cube'].pos = apply_pbc(drones[i]['cube'].pos, box_size)
