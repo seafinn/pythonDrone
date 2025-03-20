@@ -6,7 +6,7 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 1.0  # Radius of the cylinders (corners of the cube)
 mass = 1.0
-num_drones = 100
+num_drones = 30
 box_size = 200  # Simulation box size
 numCollisions = 0
 
@@ -17,6 +17,7 @@ sigma = 11 * radius  # Distance at which potential is zero
 # Time step and simulation parameters
 dt = 0.005
 time = 0
+maxTime = 10
 
 # Function to calculate the repulsive Lennard-Jones force
 def lj_repulsive_force(r_vector, epsilon, sigma):
@@ -79,11 +80,12 @@ for i in range(num_drones):
     pos = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
     vel = vector(random.uniform(-8, 8), random.uniform(-8, 8), 0)
     color = vector(random.random(), random.random(), random.random())
+    spawnTime = random.uniform(0, maxTime)
     cube, cylinders = create_drone(pos, color)
-    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel})
+    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'spawnTime': spawnTime})
 
 # Main simulation loop
-while time < 10:
+while time < maxTime:
     rate(100)  # Limit the frame rate to 100 updates per second
 
     # Calculate forces and update velocities for each drone
@@ -132,7 +134,7 @@ while time < 10:
 
         for j in range(num_drones):
             if i != j:
-                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= radius):
+                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4):
                     numCollisions += 1
 
         for idx, cyl in enumerate(drones[i]['cylinders']):
