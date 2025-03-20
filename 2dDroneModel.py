@@ -6,7 +6,7 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 1.0  # Radius of the cylinders (corners of the cube)
 mass = 1.0
-num_drones = 5
+num_drones = 20
 box_size = 200  # Simulation box size
 numCollisions = 0
 
@@ -137,15 +137,9 @@ while time < 10:
                 if i != j:
                     if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4):
                         numCollisions += 1
-                        # drones[i]['cube'].visible = False
-                        # for idx, cyl in enumerate(drones[i]['cylinders']):
-                        #     cyl.visible = False
 
             for idx, cyl in enumerate(drones[i]['cylinders']):
                 cyl.pos = corner_positions[idx]
-            # print("Drone ", i, " landing point: ",drones[i]['cube'].landingPoint)
-            # print("Drone ", i, " current position: ", drones[i]['cube'].pos)
-            # print("Drone ", i, " Distance: ", sqrt((drones[i]['cube'].landingPoint.x - drones[i]['cube'].pos.x)**2 + (drones[i]['cube'].landingPoint.y - drones[i]['cube'].pos.y)**2))
             if(sqrt((drones[i]['cube'].landingPoint.x - drones[i]['cube'].pos.x)**2 + (drones[i]['cube'].landingPoint.y - drones[i]['cube'].pos.y)**2) <= 5):
                 drones[i]['cube'].visible = False
                 for idx, cyl in enumerate(drones[i]['cylinders']):
