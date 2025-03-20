@@ -79,16 +79,17 @@ for i in range(num_drones):
     pos = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
     takeoffPoint = pos
     landingPoint = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
+    landed = False
     unitVec = vector(((landingPoint.x-takeoffPoint.x)/mag(landingPoint-takeoffPoint)), ((landingPoint.y-takeoffPoint.y)/mag(landingPoint-takeoffPoint)), 0)
     vel = vector(unitVec.x, unitVec.y, 0)*-10
     color = vector(random.random(), random.random(), random.random())
     cube, cylinders = create_drone(pos, color, landingPoint)
-    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'landingPoint' : landingPoint})
+    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'landingPoint' : landingPoint, 'landed': landed})
 
 # Main simulation loop
 while time < 10:
     rate(100)  # Limit the frame rate to 100 updates per second
-    if(drones[i]['cube'].visible == True):
+    if(drones[i]['landed'] == False):
         # Calculate forces and update velocities for each drone
         for i in range(num_drones):
             total_force = vector(0, 0, 0)
@@ -150,6 +151,7 @@ while time < 10:
                 drones[i]['cube'].visible = False
                 for idx, cyl in enumerate(drones[i]['cylinders']):
                     cyl.visible = False
+                drones[i]['landed'] = True
     else:
         continue
     time += dt 
