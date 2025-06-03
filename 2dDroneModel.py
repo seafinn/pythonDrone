@@ -6,7 +6,7 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 1.0  # Radius of the cylinders (corners of the cube)
 mass = 1.0
-num_drones = 30
+num_drones = 50
 box_size = 200  # Simulation box size
 numCollisions = 0
 
@@ -78,11 +78,12 @@ def create_drone(pos, color):
 drones = []
 for i in range(num_drones):
     pos = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
-    vel = vector(random.uniform(-8, 8), random.uniform(-8, 8), 0)
+    vel = vector(random.uniform(-20, 20), random.uniform(-20, 20), 0)
     color = vector(random.random(), random.random(), random.random())
+    isHit = False
     spawnTime = random.uniform(0, maxTime)
     cube, cylinders = create_drone(pos, color)
-    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'spawnTime': spawnTime})
+    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'isHit': isHit, 'spawnTime': spawnTime})
     drones[i]['cube'].visible = False
     for idx, cyl in enumerate(drones[i]['cylinders']):
             drones[i]['cylinders'][idx].visible = False
@@ -122,7 +123,7 @@ while time < maxTime:
 
     # Update positions of the drones and apply PBC
     for i in range(num_drones):
-        if(drones[i]['spawnTime'] - time <= 0.25):
+        if(drones[i]['isHit'] == False and drones[i]['spawnTime'] - time <= 0.25):
             drones[i]['cube'].visible = True
             for idx, cyl in enumerate(drones[i]['cylinders']):
                 drones[i]['cylinders'][idx].visible = True
@@ -142,11 +143,36 @@ while time < maxTime:
 
         for j in range(num_drones):
             if i != j:
-                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4):
+                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4 and drones[i]['cube'].visible == True and drones[j]['cube'].visible == True):
+                    # drones[i]['spawnTime'] += maxTime
+                    # drones[j]['spawnTime'] += maxTime
+                    drones[i]['isHit'] = True
+                    drones[j]['isHit'] = True
+                    drones[i]['cube'].visible = False
+                    for idx, cyl in enumerate(drones[i]['cylinders']):
+                            drones[i]['cylinders'][idx].visible = False
+                    drones[j]['cube'].visible = False
+                    for idx, cyl in enumerate(drones[i]['cylinders']):
+                            drones[j]['cylinders'][idx].visible = False
                     numCollisions += 1
 
         for idx, cyl in enumerate(drones[i]['cylinders']):
             cyl.pos = corner_positions[idx]
 
     time += dt 
+
+numHit = 0
+isPresent = 0
+notPresent = 0
+for i in range(num_drones):
+    if drones[i]['isHit'] == True:
+        numHit += 1
+    if drones[i]['cube'].visible == True:
+        isPresent += 1
+    if drones[i]['cube'].visible == False:
+        notPresent += 1
+
 print("Total Number of Collisions: ", numCollisions) 
+print("Total Number of Drones Destroyed: ", numHit)
+print("Total Number of Drones Still Visible: ", isPresent)
+print("Total Number of Drones Not Visible: ", notPresent)
