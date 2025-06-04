@@ -1,13 +1,14 @@
 from vpython import *
 import random
+from timeit import default_timer as timer
 
 scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0, 0, 0))
 
 # Parameters
-radius = 1.0  # Radius of the cylinders (corners of the cube)
-mass = 1.0
-num_drones = 50
-box_size = 200  # Simulation box size
+radius = 2  # Radius of the cylinders (corners of the cube)
+mass = 65.0
+num_drones = 15
+box_size = 3_00  #Simulation box size
 numCollisions = 0
 
 # Lennard-Jones parameters
@@ -51,7 +52,7 @@ def apply_pbc(pos, box_size):
 # Function to create a drone (flat cube with cylinders on corners)
 def create_drone(pos, color):
     # Create a flat cube (box) aligned with the x-y plane
-    cube_size = vector(4, 4, 0.5)  # Flat cube dimensions (x, y, z)
+    cube_size = vector(8, 8, 0.5)  # Flat cube dimensions (x, y, z)
     cube = box(pos=pos, size=cube_size, color=color)
 
     # Create cylinders on each corner of the cube, extending along the z-axis
@@ -77,8 +78,10 @@ def create_drone(pos, color):
 # Initialize drones
 drones = []
 for i in range(num_drones):
-    pos = vector(random.uniform(-100, 100), random.uniform(-100, 100), 0)
+    pos = vector(random.uniform(-0.5*(box_size), 0.5*(box_size)), random.uniform(-0.5*(box_size), 0.5*(box_size)), 0)
     vel = vector(random.uniform(-20, 20), random.uniform(-20, 20), 0)
+    vel.x = 20*(vel.x/mag(vel))
+    vel.y = 20*(vel.y/mag(vel))
     color = vector(random.random(), random.random(), random.random())
     isHit = False
     spawnTime = random.uniform(0, maxTime)
@@ -88,6 +91,7 @@ for i in range(num_drones):
     for idx, cyl in enumerate(drones[i]['cylinders']):
             drones[i]['cylinders'][idx].visible = False
 
+start = timer()
 # Main simulation loop
 while time < maxTime:
     rate(100)  # Limit the frame rate to 100 updates per second
@@ -133,7 +137,7 @@ while time < maxTime:
         drones[i]['cube'].pos = apply_pbc(drones[i]['cube'].pos, box_size)
 
         # Update cylinder positions (relative to the cube)
-        corner_offset = vector(2, 2, 0)  # Half of cube_size.x and cube_size.y
+        corner_offset = vector(4, 4, 0)  # Half of cube_size.x and cube_size.y
         corner_positions = [
             drones[i]['cube'].pos + vector(corner_offset.x, corner_offset.y, 0),
             drones[i]['cube'].pos + vector(-corner_offset.x, corner_offset.y, 0),
@@ -143,9 +147,7 @@ while time < maxTime:
 
         for j in range(num_drones):
             if i != j:
-                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 4 and drones[i]['cube'].visible == True and drones[j]['cube'].visible == True):
-                    # drones[i]['spawnTime'] += maxTime
-                    # drones[j]['spawnTime'] += maxTime
+                if(sqrt((drones[j]['cube'].pos.x - drones[i]['cube'].pos.x)**2 + (drones[j]['cube'].pos.y - drones[i]['cube'].pos.y)**2) <= 8 and drones[i]['cube'].visible == True and drones[j]['cube'].visible == True):
                     drones[i]['isHit'] = True
                     drones[j]['isHit'] = True
                     drones[i]['cube'].visible = False
@@ -160,6 +162,7 @@ while time < maxTime:
             cyl.pos = corner_positions[idx]
 
     time += dt 
+end = timer()
 
 numHit = 0
 isPresent = 0
@@ -176,3 +179,4 @@ print("Total Number of Collisions: ", numCollisions)
 print("Total Number of Drones Destroyed: ", numHit)
 print("Total Number of Drones Still Visible: ", isPresent)
 print("Total Number of Drones Not Visible: ", notPresent)
+print("Time Elapsed: ", end-start)
