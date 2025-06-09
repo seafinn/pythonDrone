@@ -7,8 +7,8 @@ scene = canvas(title="Colliding Drones", width=1280, height=720, center=vector(0
 # Parameters
 radius = 2  # Radius of the cylinders (corners of the cube)
 mass = 65.0
-num_drones = 15
-box_size = 3_00  #Simulation box size
+num_drones = 30
+box_size = 2_00  #Simulation box size
 numCollisions = 0
 
 # Lennard-Jones parameters
@@ -180,3 +180,4 @@ print("Total Number of Drones Destroyed: ", numHit)
 print("Total Number of Drones Still Visible: ", isPresent)
 print("Total Number of Drones Not Visible: ", notPresent)
 print("Time Elapsed: ", end-start)
+print("___________________________________________________")

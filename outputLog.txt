@@ -1,0 +1,176 @@
+[04/06/2025  3:16:46.27] Starting VPython 
+Total Number of Collisions:  30
+Total Number of Drones Destroyed:  60
+Total Number of Drones Still Visible:  90
+Total Number of Drones Not Visible:  60
+Time Elapsed:  933.1216936999999
+___________________________________________________
+[04/06/2025  3:32:41.41] Starting VPython 
+Total Number of Collisions:  26
+Total Number of Drones Destroyed:  52
+Total Number of Drones Still Visible:  98
+Total Number of Drones Not Visible:  52
+Time Elapsed:  836.3110597
+___________________________________________________
+[04/06/2025  3:47:05.35] Starting VPython 
+Total Number of Collisions:  27
+Total Number of Drones Destroyed:  54
+Total Number of Drones Still Visible:  96
+Total Number of Drones Not Visible:  54
+Time Elapsed:  762.9229282000001
+___________________________________________________
+[04/06/2025  4:00:11.29] Starting VPython 
+Total Number of Collisions:  29
+Total Number of Drones Destroyed:  58
+Total Number of Drones Still Visible:  92
+Total Number of Drones Not Visible:  58
+Time Elapsed:  779.9018521000003
+___________________________________________________
+[04/06/2025  4:13:34.37] Starting VPython 
+Total Number of Collisions:  29
+Total Number of Drones Destroyed:  58
+Total Number of Drones Still Visible:  92
+Total Number of Drones Not Visible:  58
+Time Elapsed:  766.8934910000003
+___________________________________________________
+[04/06/2025  4:26:44.30] Starting VPython 
+Total Number of Collisions:  28
+Total Number of Drones Destroyed:  56
+Total Number of Drones Still Visible:  94
+Total Number of Drones Not Visible:  56
+Time Elapsed:  770.8771102999999
+___________________________________________________
+[04/06/2025  4:39:57.30] Starting VPython 
+Total Number of Collisions:  28
+Total Number of Drones Destroyed:  56
+Total Number of Drones Still Visible:  94
+Total Number of Drones Not Visible:  56
+Time Elapsed:  806.4610124000001
+___________________________________________________
+[04/06/2025  4:53:44.35] Starting VPython 
+Total Number of Collisions:  27
+Total Number of Drones Destroyed:  54
+Total Number of Drones Still Visible:  96
+Total Number of Drones Not Visible:  54
+Time Elapsed:  772.7692205999992
+___________________________________________________
+[04/06/2025  5:06:57.35] Starting VPython 
+Total Number of Collisions:  30
+Total Number of Drones Destroyed:  60
+Total Number of Drones Still Visible:  90
+Total Number of Drones Not Visible:  60
+Time Elapsed:  758.8887439999999
+___________________________________________________
+[04/06/2025  5:19:56.29] Starting VPython 
+Total Number of Collisions:  24
+Total Number of Drones Destroyed:  48
+Total Number of Drones Still Visible:  102
+Total Number of Drones Not Visible:  48
+Time Elapsed:  777.4884617000007
+___________________________________________________
+[04/06/2025  5:33:17.33] Starting VPython 
+Total Number of Collisions:  25
+Total Number of Drones Destroyed:  50
+Total Number of Drones Still Visible:  100
+Total Number of Drones Not Visible:  50
+Time Elapsed:  756.0495207999993
+___________________________________________________
+[04/06/2025  5:46:13.33] Starting VPython 
+Total Number of Collisions:  28
+Total Number of Drones Destroyed:  56
+Total Number of Drones Still Visible:  94
+Total Number of Drones Not Visible:  56
+Time Elapsed:  794.5646164000009
+___________________________________________________
+[04/06/2025  5:59:50.28] Starting VPython 
+Total Number of Collisions:  28
+Total Number of Drones Destroyed:  56
+Total Number of Drones Still Visible:  94
+Total Number of Drones Not Visible:  56
+Time Elapsed:  779.2785441000015
+___________________________________________________
+[04/06/2025  6:13:12.28] Starting VPython 
+Total Number of Collisions:  22
+Total Number of Drones Destroyed:  44
+Total Number of Drones Still Visible:  106
+Total Number of Drones Not Visible:  44
+Time Elapsed:  774.1762110999989
+___________________________________________________
+[04/06/2025  6:26:28.29] Starting VPython 
+Total Number of Collisions:  23
+Total Number of Drones Destroyed:  46
+Total Number of Drones Still Visible:  104
+Total Number of Drones Not Visible:  46
+Time Elapsed:  778.4260058
+___________________________________________________
+[04/06/2025  6:39:49.33] Starting VPython 
+Total Number of Collisions:  23
+Total Number of Drones Destroyed:  46
+Total Number of Drones Still Visible:  104
+Total Number of Drones Not Visible:  46
+Time Elapsed:  764.5889198999994
+___________________________________________________
+[04/06/2025  6:52:54.29] Starting VPython 
+Total Number of Collisions:  31
+Total Number of Drones Destroyed:  62
+Total Number of Drones Still Visible:  88
+Total Number of Drones Not Visible:  62
+Time Elapsed:  771.6934605999995
+___________________________________________________
+[04/06/2025  7:06:06.38] Starting VPython 
+Total Number of Collisions:  34
+Total Number of Drones Destroyed:  68
+Total Number of Drones Still Visible:  82
+Total Number of Drones Not Visible:  68
+Time Elapsed:  775.8375923000003
+___________________________________________________
+[04/06/2025  7:19:22.29] Starting VPython 
+Total Number of Collisions:  25
+Total Number of Drones Destroyed:  50
+Total Number of Drones Still Visible:  100
+Total Number of Drones Not Visible:  50
+Time Elapsed:  771.2167728999993
+___________________________________________________
+[04/06/2025  7:32:36.36] Starting VPython 
+Total Number of Collisions:  31
+Total Number of Drones Destroyed:  62
+Total Number of Drones Still Visible:  88
+Total Number of Drones Not Visible:  62
+Time Elapsed:  777.0998905000015
+___________________________________________________
+[04/06/2025  7:45:53.33] Starting VPython 
+Total Number of Collisions:  26
+Total Number of Drones Destroyed:  52
+Total Number of Drones Still Visible:  98
+Total Number of Drones Not Visible:  52
+Time Elapsed:  766.1403283
+___________________________________________________
+[04/06/2025  7:58:59.31] Starting VPython 
+Total Number of Collisions:  28
+Total Number of Drones Destroyed:  56
+Total Number of Drones Still Visible:  94
+Total Number of Drones Not Visible:  56
+Time Elapsed:  764.657041800001
+___________________________________________________
+[04/06/2025  8:12:04.33] Starting VPython 
+Total Number of Collisions:  35
+Total Number of Drones Destroyed:  70
+Total Number of Drones Still Visible:  80
+Total Number of Drones Not Visible:  70
+Time Elapsed:  764.7113151999984
+___________________________________________________
+[04/06/2025  8:25:09.31] Starting VPython 
+Total Number of Collisions:  29
+Total Number of Drones Destroyed:  58
+Total Number of Drones Still Visible:  92
+Total Number of Drones Not Visible:  58
+Time Elapsed:  775.2458182000009
+___________________________________________________
+[04/06/2025  8:38:27.29] Starting VPython 
+Total Number of Collisions:  33
+Total Number of Drones Destroyed:  66
+Total Number of Drones Still Visible:  84
+Total Number of Drones Not Visible:  66
+Time Elapsed:  750.9696887999999
+___________________________________________________
+[04/06/2025  8:51:21.37] Starting VPython 
