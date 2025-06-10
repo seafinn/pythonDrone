@@ -78,7 +78,9 @@ def create_drone(pos, color):
 # Initialize drones
 drones = []
 for i in range(num_drones):
-    pos = vector(random.uniform(-0.5*(box_size), 0.5*(box_size)), random.uniform(-0.5*(box_size), 0.5*(box_size)), 0)
+    initialPos = vector(random.uniform(-0.5*(box_size), 0.5*(box_size)), random.uniform(-0.5*(box_size), 0.5*(box_size)), 0)
+    distTravelled = 0
+    pos = initialPos
     vel = vector(random.uniform(-20, 20), random.uniform(-20, 20), 0)
     vel.x = 20*(vel.x/mag(vel))
     vel.y = 20*(vel.y/mag(vel))
@@ -86,7 +88,7 @@ for i in range(num_drones):
     isHit = False
     spawnTime = random.uniform(0, maxTime)
     cube, cylinders = create_drone(pos, color)
-    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'isHit': isHit, 'spawnTime': spawnTime})
+    drones.append({'cube': cube, 'cylinders': cylinders, 'velocity': vel, 'isHit': isHit, 'spawnTime': spawnTime, 'initialPos': initialPos, 'disTravelled': distTravelled})
     drones[i]['cube'].visible = False
     for idx, cyl in enumerate(drones[i]['cylinders']):
             drones[i]['cylinders'][idx].visible = False
@@ -157,6 +159,14 @@ while time < maxTime:
                     for idx, cyl in enumerate(drones[i]['cylinders']):
                             drones[j]['cylinders'][idx].visible = False
                     numCollisions += 1
+                    drones[i]['distTravelled'] = sqrt((drones[i]['cube'].pos.x - drones[i]['initialPos'].x)**2 + (drones[i]['cube'].pos.y - drones[i]['initialPos'].y)**2)
+                    drones[j]['distTravelled'] = sqrt((drones[j]['cube'].pos.x - drones[j]['initialPos'].x)**2 + (drones[j]['cube'].pos.y - drones[j]['initialPos'].y)**2)
+                    print("Drone ", i, " initial position: ", drones[i]['initialPos'])
+                    print("Drone ", i, " final position: ", drones[i]['cube'].pos)
+                    print("Drone ", i, " distance travelled: ",  drones[i]['distTravelled'])
+                    print("Drone ", j, " initial position: ", drones[j]['initialPos'])
+                    print("Drone ", j, " final position: ", drones[j]['cube'].pos)
+                    print("Drone ", j, " distance travelled: ",  drones[j]['distTravelled'])
 
         for idx, cyl in enumerate(drones[i]['cylinders']):
             cyl.pos = corner_positions[idx]
@@ -167,17 +177,21 @@ end = timer()
 numHit = 0
 isPresent = 0
 notPresent = 0
+avgDist = 0
 for i in range(num_drones):
     if drones[i]['isHit'] == True:
         numHit += 1
+        avgDist += drones[i]['distTravelled']
     if drones[i]['cube'].visible == True:
         isPresent += 1
     if drones[i]['cube'].visible == False:
         notPresent += 1
+avgDist /= numHit
 
 print("Total Number of Collisions: ", numCollisions) 
 print("Total Number of Drones Destroyed: ", numHit)
 print("Total Number of Drones Still Visible: ", isPresent)
 print("Total Number of Drones Not Visible: ", notPresent)
 print("Time Elapsed: ", end-start)
+print("Mean Free Path: ", avgDist)
 print("___________________________________________________")
